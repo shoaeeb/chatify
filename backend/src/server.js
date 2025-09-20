@@ -4,8 +4,11 @@ import "dotenv/config";
 import path from "path";
 import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
+import { connectDB } from "./lib/db.js";
 
 const app = express();
+
+app.use(express.json());
 const PORT = process.env.PORT;
 const __dirname = path.resolve();
 
@@ -18,4 +21,7 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
   });
 }
-app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
+  connectDB();
+});
